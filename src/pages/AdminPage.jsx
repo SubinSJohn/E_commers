@@ -28,6 +28,8 @@ function AdminPage() {
     return (
         <div>
             <h2>Welcome { username }</h2>
+            <br /><br />
+            
             <table border="1" cellPadding="8">
                 <thead>
                     <tr>
@@ -53,7 +55,7 @@ function AdminPage() {
                             <td>{item.description}</td>
                             <td>{item.price}</td>
                             <td>
-                                <button onClick={() => navigate('/edit/${item.id}')}>
+                                <button onClick={() => navigate(`/edit/${item.id}`)}>
                                     Edit
                                 </button>
                             </td>
