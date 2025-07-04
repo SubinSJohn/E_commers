@@ -29,7 +29,11 @@ function AdminPage() {
         <div>
             <h2>Welcome { username }</h2>
             <br /><br />
-            
+            <button type="button" onClick={() => navigate('/edit/0')}>Add new Product</button>
+            <br /> <br />
+            <button type="button" onClick={() => navigate('/')}>Home</button>
+            <br /> <br />
+
             <table border="1" cellPadding="8">
                 <thead>
                     <tr>

@@ -5,6 +5,9 @@ function EditPage() {
 
     const { id } = useParams();
     const navigate = useNavigate();
+    const isNewProduct = id === "0"; 
+    const updateOrSave =isNewProduct? "Save":"Update"; 
+    const headerName =isNewProduct? "Add a Product":`Edit ${itemData.name}`; 
     const role = localStorage.getItem("role");
     const [statusMessage, setStatusMessage] = useState("");
     const[itemData, setItemData] = useState({
@@ -16,6 +19,7 @@ function EditPage() {
     });
 
     useEffect(() => {
+        if(isNewProduct) return;
         fetch(`http://localhost:8080/searchProductById?id=${id}`)
         .then((res) => res.json())
         .then((data) => setItemData(data))
@@ -30,25 +34,31 @@ function EditPage() {
     };
 
     const handleSubmit = (e) => {
-        
-        const confirmUpdate = window.confirm("Are you sure you want to update this product?")
+      
         e.preventDefault();
-        if(!confirmUpdate) {
-        return;
+        if(isNewProduct) {
+            const confirmUpdate = window.confirm("Are you sure you want to Add this product?")
+            if(!confirmUpdate) return;
+        
+        } else {
+            const confirmUpdate1 = window.confirm("Are you sure you want to update this product?") 
+            if(!confirmUpdate1) return;
         }
 
-        fetch('http://localhost:8080/updateProduct', {
+        const url = isNewProduct ? "http://localhost:8080/addProduct" : "http://localhost:8080/updateProduct";
+        fetch( url, {
             method:'post',
             headers: {'Content-Type':'application/json'},
             body:JSON.stringify(itemData)
         })
         .then((res) => res.text())
         .then((data) => {
-            if(data === "success"){
-                setStatusMessage("Product updated successfully.");
+            if(data === "success" || data === "Saved"){
+                const mess = isNewProduct? "Product Added successfully." : "Product updated successfully.";
+                setStatusMessage(mess);
                 setTimeout(() => {
                     navigate('/Admin')
-                }, 3000);
+                }, 1000);
 
                 
             } else {
@@ -56,6 +66,7 @@ function EditPage() {
             }
         })
         .catch((err) => {
+            alert('an error has occurred in product updation');
             console.error('Server error', err)
         })
     };
@@ -67,6 +78,10 @@ function EditPage() {
     };
 
     const handleDelete = () => {
+        if(isNewProduct) { 
+            navigate('/Admin');
+            return;
+        }
         const confirmDeletion = window.confirm("Are you sure you want to delete this item.")
         if(!confirmDeletion) return;
         
@@ -79,7 +94,7 @@ function EditPage() {
                 setStatusMessage("Product deleted successfully");
                 setTimeout(() => {
                     navigate('/Admin')
-                }, 3000)
+                }, 1000)
             } else{
             }
         })
@@ -89,10 +104,9 @@ function EditPage() {
         })
     };
 
-
     return(
        <>
-            <h2> Edit  { itemData.name }</h2>
+            <h2> { headerName }</h2>
 
             
             <form>
@@ -127,7 +141,7 @@ function EditPage() {
                     value={ itemData.image }
                     onChange={ handleChange }
                 /> <br /> <br />
-                <button type="button" onClick={ handleSubmit}> Update</button>
+                <button type="button" onClick={ handleSubmit}> { updateOrSave }</button>
                 <button type="button" onClick={ handleDelete }>Delete Item</button> 
                 <button type="button" onClick={ handleCancel}> Cancel</button>
             </form>

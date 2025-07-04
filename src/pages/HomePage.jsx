@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+localStorage.setItem("role","hi");
 
 function HomePage() {
     return(
