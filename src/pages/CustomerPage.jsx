@@ -1,12 +1,13 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import Card from "./Card.jsx";
-import Cart from "./Cart.jsx";
 
 function CustomerPage() {
 
 
     const [productlist, setProductlist] = useState([]);
+    const [cartItems, setCartitems] = useState([]);
+    
 
    useEffect (() => {
         fetch("http://localhost:8080/getAllProducts")
@@ -19,7 +20,6 @@ function CustomerPage() {
 
     return(
         <div className="card-container">
-            <Cart />
             { productlist.map(( product ) => (
                 <Card 
                     image={product.image}

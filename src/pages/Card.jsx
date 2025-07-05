@@ -1,3 +1,5 @@
+import Cart from './Cart';
+
 
 function Card({ image, name, price, rating, description}) {
 
@@ -10,7 +12,7 @@ function Card({ image, name, price, rating, description}) {
                     <h3 className="card-name">{ name }</h3>
                     <p className="card-price">{ price } RS</p>
                     <p className="card-rattin">4.5 star</p>
-                    <button  className="card-cart">cart +</button>
+                     <Cart />
                 </div>
             </div>
             <div className="card-description">

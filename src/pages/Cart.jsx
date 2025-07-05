@@ -17,7 +17,17 @@ function Cart({ userId, ProductId }) {
 
     if(quantity === 0) {
         return (
-            <button onClick= { incrementQuantity } >Cart+</button>
+            <button 
+                onClick={incrementQuantity}
+                style={{
+                width: "70px",
+                textAlign: "center",
+                border: "1px solid #ccc",
+                borderRadius: "4px"
+                }}
+            >
+  Cart+
+</button>
         )
     }
     

@@ -6,8 +6,7 @@ function EditPage() {
     const { id } = useParams();
     const navigate = useNavigate();
     const isNewProduct = id === "0"; 
-    const updateOrSave =isNewProduct? "Save":"Update"; 
-    const headerName =isNewProduct? "Add a Product":`Edit ${itemData.name}`; 
+    const updateOrSave =isNewProduct? "Save":"Update";  
     const role = localStorage.getItem("role");
     const [statusMessage, setStatusMessage] = useState("");
     const[itemData, setItemData] = useState({
@@ -103,6 +102,8 @@ function EditPage() {
             console.error('Server error ', err)
         })
     };
+
+    const headerName =isNewProduct? "Add a Product":`Edit ${itemData.name}`;
 
     return(
        <>
