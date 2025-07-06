@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 
 
-function Cart({ productId }) {
+function Cart({ productId, setQuantity, quantity }) {
 
 
     const userName = localStorage.getItem("username");
-    const [quantity, setQuantity] = useState(0);
+    
 
      useEffect(() => {
         fetch(`http://localhost:8080/viewCart?name=${userName}`)

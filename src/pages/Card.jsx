@@ -1,9 +1,8 @@
-import Cart from './Cart';
+import Cart from "./Cart";
 
 
-function Card({ image, name, price, rating, description}) {
+function Card({ image, name, price, rating, description, productId}) {
 
-    const url = "https://gratisography.com/wp-content/uploads/2024/11/gratisography-augmented-reality-800x525.jpg"
     return (
         <div className="card">
             <div className="card-top">
@@ -12,7 +11,9 @@ function Card({ image, name, price, rating, description}) {
                     <h3 className="card-name">{ name }</h3>
                     <p className="card-price">{ price } RS</p>
                     <p className="card-rattin">4.5 star</p>
-                     <Cart />
+                    <Cart 
+                        productId={ productId }
+                    />
                 </div>
             </div>
             <div className="card-description">

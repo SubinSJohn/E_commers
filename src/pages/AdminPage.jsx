@@ -20,8 +20,7 @@ function AdminPage() {
         .catch((err) => console.error("Error fetching products: " + err));
     },[]);
 
-
-
+   
 
 
 

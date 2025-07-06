@@ -6,6 +6,7 @@ import HomePage from './pages/HomePage';
 import AdminPage from './pages/AdminPage';
 import CustomerPage from './pages/CustomerPage';
 import EditPage from './pages/EditPage';
+import ViewCart from './pages/ViewCart';
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <Route path="/admin" element={<AdminPage />}/>
           <Route path="/customer" element={<CustomerPage />} />
           <Route path="/edit/:id" element= {<EditPage />} />
+          <Route path="/viewcart" element= {<ViewCart />} />
         </Routes>
     </Router>
   );

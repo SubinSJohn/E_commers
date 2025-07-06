@@ -56,3 +56,54 @@
   max-width: 1200px;
   margin: 0 auto;
 }
+
+
+
+
+
+.card2 {
+  width: 700px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  justify-content:space-between;
+  align-items: center;
+  background: white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  margin: 10px;
+  font-family: sans-serif;
+}
+
+.card2-image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-right: 16px;
+}
+
+
+.cards2-items{
+  display: flex;
+  justify-content:space-between;
+  flex-direction: row;
+  font-size: 1.1em;
+}
+
+.card2-itemsRaper{
+  display: flex;
+  justify-content:space-around;
+  width: 500px;
+  flex-direction:column;
+}
+
+.cards2-description{
+  display: flex;
+  justify-content:center;
+}
+
+.cards2-cart{
+
+}
