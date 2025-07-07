@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import Card2 from "./Card2";
+import { useNavigate } from "react-router-dom";
 
 function ViewCart() {
   const userName = localStorage.getItem("username");
   const [cartItems, setCartItems] = useState([]);
   const [products, setProducts] = useState([]);
-  const [total, setTotal] = useState(0);
+ 
+  const navigate = useNavigate();
 
   // Fetch cart items (productId + quantity)
   useEffect(() => {
@@ -23,32 +25,29 @@ function ViewCart() {
       .catch((err) => console.error("Error fetching products: " + err));
   }, []);
 
-  // Calculate total
-  useEffect(() => {
-    let sum = 0;
-    cartItems.forEach((item) => {
-      const product = products.find((p) => p.id === item.productId);
-      if (product) {
-        sum += product.price * item.quantity;
-      }
-    });
-    setTotal(sum);
-  }, [cartItems, products]);
+  
 
   const handleClearCart = () => {
     fetch("http://localhost:8080/emptyCart", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userName }),
+      body: JSON.stringify({ 
+        username: userName
+       }),
     })
       .then((res) => res.text())
       .then((msg) => {
-        if (msg === "Cart cleared") {
-          setCartItems([]);
+        if (msg === "Cart cleared successfully") {
+          navigate("/customer");
+          //setCartItems([]); // if i just want to be in this page 
         }
       })
       .catch((err) => console.error("Error clearing cart: " + err));
   };
+
+  const goToPlaceOrder = () =>{
+    navigate("/placeorder")
+  }
 
   return (
     <div className="view-cart">
@@ -72,8 +71,7 @@ function ViewCart() {
           );
         })}
       </div>
-      <h3>Total: ₹{total}</h3>
-      <button disabled={cartItems.length === 0}>Place Order</button>
+      <button type="button" onClick={goToPlaceOrder}>Place Order</button>
     </div>
   );
 }

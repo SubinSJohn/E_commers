@@ -1,4 +1,6 @@
 import Cart from "./Cart";
+import '../styling/Card.css';
+
 
 
 function Card({ image, name, price, rating, description, productId}) {

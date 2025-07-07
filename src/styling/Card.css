@@ -1,0 +1,67 @@
+.card {
+  width: 300px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(135deg, #f8faff, #ffffff);
+}
+
+.card-top {
+  display: flex;
+  justify-content:right;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.card-image {
+  width: 100px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid #eee;
+  background-color: #f9f9f9;
+}
+
+.card-details {
+  display: flex;
+  flex-direction: column;
+  justify-content:space-between;
+  flex: 1;
+}
+
+.card-name {
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin: 0;
+  color: #2c3e50;
+}
+
+.card-price {
+  color: #f39c12;
+  font-weight: bold;
+  margin: 4px 0;
+}
+
+.card-rating {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.card-description {
+  font-size: 0.9rem;
+  color: #444;
+  border-top: 1px solid #eee;
+  padding-top: 8px;
+  margin-top: 8px;
+}

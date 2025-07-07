@@ -81,20 +81,16 @@ function Cart({ productId, setQuantity, quantity }) {
     
     return(
 
-        <div>
-            <button onClick={removeFromCart}>−</button>
+        <div className="cart2-quantity-wrapper">
+            <button className="cart2-btn" onClick={removeFromCart}>−</button>
             <input
+                className="cart2-quantity"
+
                 type="text"
                 value={quantity}
                 readOnly
-                style={{
-                    width: "30px",
-                    textAlign: "center",
-                    border: "1px solid #ccc",
-                    borderRadius: "4px"
-                }}
             />
-            <button onClick={addToCart}>+</button>
+            <button className="cart2-btn" onClick={addToCart}>+</button>
         </div>
     );
 }

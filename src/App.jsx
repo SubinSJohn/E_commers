@@ -7,21 +7,25 @@ import AdminPage from './pages/AdminPage';
 import CustomerPage from './pages/CustomerPage';
 import EditPage from './pages/EditPage';
 import ViewCart from './pages/ViewCart';
+import PlaceOrder from './pages/PlaceOrder';
 
 
 function App() {
   return(
-    <Router>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/signup" element={<SignUpPage />}/>
-          <Route path="/signin" element={<SignInPage />}/>
-          <Route path="/admin" element={<AdminPage />}/>
-          <Route path="/customer" element={<CustomerPage />} />
-          <Route path="/edit/:id" element= {<EditPage />} />
-          <Route path="/viewcart" element= {<ViewCart />} />
-        </Routes>
-    </Router>
+    <>
+      <Router>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/signup" element={<SignUpPage />}/>
+            <Route path="/signin" element={<SignInPage />}/>
+            <Route path="/admin" element={<AdminPage />}/>
+            <Route path="/customer" element={<CustomerPage />} />
+            <Route path="/edit/:id" element= {<EditPage />} />
+            <Route path="/viewcart" element= {<ViewCart />} />
+            <Route path="/placeorder" element= {<PlaceOrder />} />
+          </Routes>
+      </Router>
+    </>
   );
 }
 
