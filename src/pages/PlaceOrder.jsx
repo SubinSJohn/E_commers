@@ -1,4 +1,7 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import '../styling/PlaceOrder.css';
+
 
 function PlaceOrder() {
   const userName = localStorage.getItem("username");
@@ -6,7 +9,8 @@ function PlaceOrder() {
   const [products, setProducts] = useState([]);
   const [total, setTotal] = useState(0);
 
-  // Fetch cart items
+  const navigate = useNavigate();
+
   useEffect(() => {
     fetch(`http://localhost:8080/viewCart?name=${userName}`)
       .then((res) => res.json())
@@ -14,7 +18,6 @@ function PlaceOrder() {
       .catch((err) => console.error("Error fetching cart items: " + err));
   }, []);
 
-  // Fetch product data
   useEffect(() => {
     fetch("http://localhost:8080/getAllProducts")
       .then((res) => res.json())
@@ -22,7 +25,6 @@ function PlaceOrder() {
       .catch((err) => console.error("Error fetching products: " + err));
   }, []);
 
-  // Calculate total
   useEffect(() => {
     let sum = 0;
     cartItems.forEach((item) => {
@@ -38,20 +40,23 @@ function PlaceOrder() {
   const grandTotal = total - discount;
 
   return (
+    <div className="place-order-container">
+  <h1>🧾 SalesSavvy Receipt</h1>
+  <p className="address">123 Market Street, Bengaluru, KA 560001</p>
+  <p className="note">Thanks for placing your trust in us! Here's a quick summary of your order.</p>
+
+  <hr />
+
+  {cartItems.length === 0 ? (
+    <p style={{ textAlign: "center", color: "#999" }}>
+      Your cart is empty. Add some products to place an order.
+    </p>
+  ) : (
     <>
-    <div style={{ maxWidth: "600px", margin: "0 auto", fontFamily: "monospace", border: "1px solid #ccc", padding: "20px", borderRadius: "8px" }}>
-      <h1 style={{ textAlign: "center", marginBottom: "5px" }}>SalesSavvy</h1>
-      <p style={{ textAlign: "center", margin: 0 }}>123 Market Street, Bengaluru, KA 560001</p>
-      <p style={{ textAlign: "center", fontSize: "13px", marginTop: "5px", color: "#555" }}>
-        Thank you for shopping with us! We deliver top quality products right to your doorstep.
-      </p>
-
-      <hr style={{ margin: "20px 0" }} />
-
-      <table style={{ width: "100%", borderCollapse: "collapse" }}>
+      <table className="place-order-table">
         <thead>
-          <tr style={{ borderBottom: "1px solid #ddd" }}>
-            <th style={{ textAlign: "left" }}>Product</th>
+          <tr>
+            <th>Product</th>
             <th>Qty</th>
             <th>Price</th>
             <th>Subtotal</th>
@@ -64,10 +69,10 @@ function PlaceOrder() {
             const subtotal = product.price * item.quantity;
             return (
               <tr key={item.productId}>
-                <td>{product.name}</td>
-                <td style={{ textAlign: "center" }}>{item.quantity}</td>
-                <td style={{ textAlign: "center" }}>₹{product.price}</td>
-                <td style={{ textAlign: "center" }}>₹{subtotal}</td>
+                <td style={{ textAlign: "left" }}>{product.name}</td>
+                <td>{item.quantity}</td>
+                <td>₹{product.price}</td>
+                <td>₹{subtotal}</td>
               </tr>
             );
           })}
@@ -75,35 +80,51 @@ function PlaceOrder() {
         <tfoot>
           {discount > 0 && (
             <tr>
-              <td colSpan="3" style={{ textAlign: "right", paddingTop: "10px", fontWeight: "bold", color: "green" }}>
+              <td colSpan="3" className="discount" style={{ textAlign: "right" }}>
                 5% Discount:
               </td>
-              <td style={{ textAlign: "center", paddingTop: "10px", color: "green" }}>
-                -₹{discount.toFixed(2)}
-              </td>
+              <td className="discount">-₹{discount.toFixed(2)}</td>
             </tr>
           )}
           <tr>
-            <td colSpan="3" style={{ textAlign: "right", fontWeight: "bold", paddingTop: "10px" }}>
+            <td colSpan="3" style={{ textAlign: "right" }}>
               Total:
             </td>
-            <td style={{ textAlign: "center", fontWeight: "bold", paddingTop: "10px" }}>
-              ₹{grandTotal.toFixed(2)}
-            </td>
+            <td>₹{grandTotal.toFixed(2)}</td>
           </tr>
         </tfoot>
       </table>
 
-      <hr style={{ marginTop: "20px" }} />
-      <p style={{ textAlign: "center", fontSize: "12px", color: "#888" }}>
-        Need help? Contact us at support@sales-savvy.com
-      </p>
-    </div>
-     <div>
-      <button style={{ textAlign: "center", fontSize: "12px"}}>Place Order</button>
-    </div>
+      <div style={{ textAlign: "center", marginTop: "20px" }}>
+        <button className="place-order-btn">Place Order</button>
+      </div>
     </>
+  )}
+
+  <hr />
+
+  <p className="support-text">
+    If you have any questions, reach us at <strong>support@sales-savvy.com</strong>.
+  </p>
+
+  <div className="order-buttons">
+    <button className="back-cart-btn" onClick={() => navigate("/viewcart")}>⬅ Back to Cart</button>
+    <button className="home-btn" onClick={() => navigate("/customer")}>🏠 Home</button>
+  </div>
+</div>
+
   );
 }
+
+const buttonStyle = {
+  backgroundColor: "#f97316",
+  border: "none",
+  padding: "10px 18px",
+  borderRadius: "6px",
+  color: "#fff",
+  fontWeight: "bold",
+  cursor: "pointer",
+  fontSize: "14px",
+};
 
 export default PlaceOrder;

@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
 import Card2 from "./Card2";
 import { useNavigate } from "react-router-dom";
+import "../styling/ViewCart.css";
 
 function ViewCart() {
   const userName = localStorage.getItem("username");
   const [cartItems, setCartItems] = useState([]);
   const [products, setProducts] = useState([]);
- 
   const navigate = useNavigate();
 
-  // Fetch cart items (productId + quantity)
   useEffect(() => {
     fetch(`http://localhost:8080/viewCart?name=${userName}`)
       .then((res) => res.json())
@@ -17,7 +16,6 @@ function ViewCart() {
       .catch((err) => console.error("Error fetching cart items: " + err));
   }, []);
 
-  // Fetch all products once
   useEffect(() => {
     fetch("http://localhost:8080/getAllProducts")
       .then((res) => res.json())
@@ -25,34 +23,54 @@ function ViewCart() {
       .catch((err) => console.error("Error fetching products: " + err));
   }, []);
 
-  
-
   const handleClearCart = () => {
     fetch("http://localhost:8080/emptyCart", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ 
-        username: userName
-       }),
+      body: JSON.stringify({ username: userName }),
     })
       .then((res) => res.text())
       .then((msg) => {
         if (msg === "Cart cleared successfully") {
           navigate("/customer");
-          //setCartItems([]); // if i just want to be in this page 
         }
       })
       .catch((err) => console.error("Error clearing cart: " + err));
   };
 
-  const goToPlaceOrder = () =>{
-    navigate("/placeorder")
-  }
+  const goToPlaceOrder = () => {
+    navigate("/placeorder");
+  };
+
+  const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  const totalPrice = cartItems.reduce((sum, item) => {
+    const product = products.find((p) => p.id === item.productId);
+    return product ? sum + product.price * item.quantity : sum;
+  }, 0);
 
   return (
-    <div className="view-cart">
-      <h2>Your Cart, {userName}</h2>
-      <button onClick={handleClearCart}>Clear Cart</button>
+     <div className="view-cart-container">
+    <div className="view-cart-wrapper">
+      <div className="view-cart-header">
+        <div>
+          <h2>Your Cart, {userName}</h2>
+          <p className="cart-subtext">Review your selected items before placing your order.</p>
+        </div>
+        <div className="view-cart-actions">
+          <button className="btn orange" onClick={handleClearCart}>Clear Cart</button>
+          <button className="cart-buttons" onClick={ () => navigate("/customer")}>Back to Products</button>
+        </div>
+      </div>
+
+      <div className="cart-user-info">
+        <p>👤 Logged in as <strong>{userName}</strong></p>
+      </div>
+
+  {cartItems.length === 0 ? (
+    <p className="empty-cart-msg">🛒 Your cart is empty. Add some items!</p>
+  ) : (
+    <>
+      <p className="cart-hint">Tip: Use the + and − buttons to update quantities.</p>
       <div className="cart-list">
         {cartItems.map((item) => {
           const product = products.find((p) => p.id === item.productId);
@@ -71,8 +89,13 @@ function ViewCart() {
           );
         })}
       </div>
-      <button type="button" onClick={goToPlaceOrder}>Place Order</button>
-    </div>
+    </>
+  )}
+  <button className="btn green" onClick={goToPlaceOrder}>
+    Place Order
+</button>
+</div>
+</ div>
   );
 }
 

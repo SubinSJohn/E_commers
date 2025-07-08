@@ -1,0 +1,100 @@
+.place-order-container {
+  max-width: 700px;
+  margin: 30px auto;
+  font-family: monospace;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.place-order-container h1 {
+  text-align: center;
+  margin-bottom: 5px;
+  color: #2c3e50;
+}
+
+.place-order-container p.address,
+.place-order-container p.note {
+  text-align: center;
+  font-size: 13px;
+  color: #555;
+  margin: 5px 0;
+}
+
+.place-order-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.place-order-table th,
+.place-order-table td {
+  padding: 8px;
+}
+
+.place-order-table th {
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.place-order-table td {
+  text-align: center;
+}
+
+.place-order-table tfoot td {
+  font-weight: bold;
+}
+
+.discount {
+  color: green;
+}
+
+.order-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+
+.back-cart-btn,
+.home-btn {
+  background-color: #f97316;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.place-order-btn {
+  background-color: #10b981;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.place-order-btn:hover {
+  background-color: #059669;
+}
+
+
+.back-cart-btn:hover,
+.home-btn:hover {
+  background-color: #ea580c;
+}
+
+.support-text {
+  text-align: center;
+  font-size: 13px;
+  color: #666;
+  margin-top: 30px;
+}

@@ -1,4 +1,5 @@
 import Cart2 from "./Cart2";
+import '../styling/Card2.css';
 import { useState, useEffect } from "react";
 
 function Card2({ productId, name, price, rating, description, image}) {

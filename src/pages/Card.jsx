@@ -23,5 +23,5 @@ function Card({ image, name, price, rating, description, productId}) {
             </div>
         </div>
     );
-}
+} 
 export default Card

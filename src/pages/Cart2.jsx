@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import '../styling/Cart2.css';
 
 
 function Cart({ productId, setQuantity, quantity }) {
@@ -65,34 +66,19 @@ function Cart({ productId, setQuantity, quantity }) {
 
     if(quantity === 0) {
         return (
-            <button 
-                onClick={addToCart}
-                style={{
-                width: "70px",
-                textAlign: "center",
-                border: "1px solid #ccc",
-                borderRadius: "4px"
-                }}
-            > 
+            <button className="cart2-add-btn" onClick={addToCart}>
                 Cart+
             </button>
-        )
+        );
     }
     
-    return(
-
-        <div className="cart2-quantity-wrapper">
-            <button className="cart2-btn" onClick={removeFromCart}>−</button>
-            <input
-                className="cart2-quantity"
-
-                type="text"
-                value={quantity}
-                readOnly
-            />
-            <button className="cart2-btn" onClick={addToCart}>+</button>
-        </div>
-    );
+   return (
+    <div className="cart2-quantity-wrapper">
+      <button className="cart2-btn" onClick={removeFromCart}>−</button>
+      <input className="cart2-quantity" type="text" value={quantity} readOnly />
+      <button className="cart2-btn" onClick={addToCart}>+</button>
+    </div>
+  );
 }
 
 export default Cart
