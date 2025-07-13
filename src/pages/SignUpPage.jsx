@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styling/SignUpPage.css";
+import { toast } from "react-toastify";
 
 function SignUpPage() {
   localStorage.setItem("role", "hi");
@@ -33,10 +34,18 @@ function SignUpPage() {
       .then((res) => res.text())
       .then((data) => {
         if (data === "Success") {
-          alert("Signing up : " + data);
+          toast.success("Signing up Success",{
+            position: "bottom-right",
+            autoClose: 4000,
+            type: "success"
+          });
           navigate("/");
         } else {
-          alert("Signing up : " + data + "  User name not available");
+          toast.error("Signing up failed User name not available",{
+            position: "bottom-right",
+            autoClose: 4000,
+            type: "error"
+          });
         }
       })
       .catch((err) => {

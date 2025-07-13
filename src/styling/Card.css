@@ -48,6 +48,7 @@
 .card-price {
   color: #f39c12;
   font-weight: bold;
+  background: none;
   margin: 4px 0;
 }
 
@@ -62,4 +63,30 @@
   border-top: 1px solid #eee;
   padding-top: 8px;
   margin-top: 8px;
+}
+
+.guest-box {
+    padding: 16px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    text-align: center;
+    margin-top: 16px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.signup-button, .edit-button {
+    margin-top: 8px;
+    padding: 10px 20px;
+    background-color: #007bff; /* Bootstrap-style blue */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.signup-button:hover, .edit-button:hover {
+    background-color: #0056b3;
 }

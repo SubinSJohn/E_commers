@@ -1,161 +1,157 @@
-import{ useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import '../styling/EditPage.css';
 
 function EditPage() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const isNewProduct = id === "0";
+  const updateOrSave = isNewProduct ? "Save" : "Update";
+  const [statusMessage, setStatusMessage] = useState("");
+  const [itemData, setItemData] = useState({
+    id: '',
+    name: '',
+    description: '',
+    price: '',
+    image: ''
+  });
 
-    const { id } = useParams();
-    const navigate = useNavigate();
-    const isNewProduct = id === "0"; 
-    const updateOrSave =isNewProduct? "Save":"Update";  
-    const role = localStorage.getItem("role");
-    const [statusMessage, setStatusMessage] = useState("");
-    const[itemData, setItemData] = useState({
-        id: '',
-        name: '',
-        description:'',
-        price: '',
-        image: ''
-    });
+  useEffect(() => {
+    if (isNewProduct) return;
+    fetch(`http://localhost:8080/searchProductById?id=${id}`)
+      .then((res) => res.json())
+      .then((data) => setItemData(data))
+      .catch((err) => console.error("Error from server: " + err));
+  }, [id]);
 
-    useEffect(() => {
-        if(isNewProduct) return;
-        fetch(`http://localhost:8080/searchProductById?id=${id}`)
-        .then((res) => res.json())
-        .then((data) => setItemData(data))
-        .catch((error) => console.error("error from server: " + err));
-    },[id]);
+  const handleChange = (e) => {
+    setItemData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
+  };
 
-    const handleChange=(e) => {
-        setItemData((prev) => ({
-            ...prev,
-            [e.target.name]:e.target.value
-        }));
-    };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const confirmMsg = isNewProduct
+      ? "Are you sure you want to add this product?"
+      : "Are you sure you want to update this product?";
+    if (!window.confirm(confirmMsg)) return;
 
-    const handleSubmit = (e) => {
-      
-        e.preventDefault();
-        if(isNewProduct) {
-            const confirmUpdate = window.confirm("Are you sure you want to Add this product?")
-            if(!confirmUpdate) return;
-        
+    const url = isNewProduct
+      ? "http://localhost:8080/addProduct"
+      : "http://localhost:8080/updateProduct";
+
+    fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(itemData)
+    })
+      .then((res) => res.text())
+      .then((data) => {
+        if (data === "success" || data === "Saved") {
+          const msg = isNewProduct
+            ? "Product added successfully."
+            : "Product updated successfully.";
+          setStatusMessage(msg);
+          setTimeout(() => navigate('/Admin'), 1000);
         } else {
-            const confirmUpdate1 = window.confirm("Are you sure you want to update this product?") 
-            if(!confirmUpdate1) return;
+          alert("Update failed: " + data);
         }
+      })
+      .catch((err) => {
+        alert("An error has occurred in product update.");
+        console.error("Server error", err);
+      });
+  };
 
-        const url = isNewProduct ? "http://localhost:8080/addProduct" : "http://localhost:8080/updateProduct";
-        fetch( url, {
-            method:'post',
-            headers: {'Content-Type':'application/json'},
-            body:JSON.stringify(itemData)
-        })
-        .then((res) => res.text())
-        .then((data) => {
-            if(data === "success" || data === "Saved"){
-                const mess = isNewProduct? "Product Added successfully." : "Product updated successfully.";
-                setStatusMessage(mess);
-                setTimeout(() => {
-                    navigate('/Admin')
-                }, 1000);
+  const handleCancel = () => {
+    if (window.confirm("Are you sure you want to cancel editing?")) {
+      navigate('/Admin');
+    }
+  };
 
-                
-            } else {
-                alert("Update failed: " + data);
-            }
-        })
-        .catch((err) => {
-            alert('an error has occurred in product updation');
-            console.error('Server error', err)
-        })
-    };
-    const handleCancel =() => {
-        const confirmCancel = window.confirm("Are you sure you want to cancel editing?")
-        if(confirmCancel) {
-            navigate('/Admin')
+  const handleDelete = () => {
+    if (isNewProduct) {
+      navigate('/Admin');
+      return;
+    }
+    if (!window.confirm("Are you sure you want to delete this item?")) return;
+
+    fetch(`http://localhost:8080/deleteProduct?id=${id}`, {
+      method: 'DELETE'
+    })
+      .then((res) => res.text())
+      .then((data) => {
+        if (data === "success") {
+          setStatusMessage("Product deleted successfully.");
+          setTimeout(() => navigate('/Admin'), 1000);
         }
-    };
+      })
+      .catch((err) => {
+        alert("An error has occurred.");
+        console.error("Server error", err);
+      });
+  };
 
-    const handleDelete = () => {
-        if(isNewProduct) { 
-            navigate('/Admin');
-            return;
-        }
-        const confirmDeletion = window.confirm("Are you sure you want to delete this item.")
-        if(!confirmDeletion) return;
-        
-        fetch(`http://localhost:8080/deleteProduct?id=${id}`, {
-            method:'DELETE'
-        })
-        .then((res) => res.text())
-        .then((data) => {
-            if(data === "success") {
-                setStatusMessage("Product deleted successfully");
-                setTimeout(() => {
-                    navigate('/Admin')
-                }, 1000)
-            } else{
-            }
-        })
-        .catch((err) => {
-            alert('an error has occurred');
-            console.error('Server error ', err)
-        })
-    };
+  const headerName = isNewProduct ? "Add a Product" : `Edit: ${itemData.name}`;
 
-    const headerName =isNewProduct? "Add a Product":`Edit ${itemData.name}`;
+  return (
+    <div className="edit-page">
+      <h2>{headerName}</h2>
 
-    return(
-       <>
-            <h2> { headerName }</h2>
+      <form className="edit-form">
+        <label>Name:</label>
+        <input
+          type="text"
+          name="name"
+          value={itemData.name}
+          onChange={handleChange}
+          required
+        />
 
-            
-            <form>
-                <label><strong>Name: </strong></label>
-                <input 
-                    type="text"
-                    name="name"
-                    value={ itemData.name }
-                    onChange={ handleChange }
-                /> <br /> <br />
+        <label>Description:</label>
+        <input
+          type="text"
+          name="description"
+          value={itemData.description}
+          onChange={handleChange}
+          required
+        />
 
-                <label><strong>Description: </strong></label>
-                <input 
-                    type="text"
-                    name="description"
-                    value={ itemData.description }
-                    onChange={ handleChange }
-                /> <br /> <br />
+        <label>Price:</label>
+        <input
+          type="number"
+          name="price"
+          value={itemData.price}
+          onChange={handleChange}
+          required
+        />
 
-                <label><strong>Price: </strong></label>
-                <input 
-                    type="number"
-                    name="price"
-                    value={ itemData.price }
-                    onChange={ handleChange }
-                /> <br /> <br />
+        <label>Image URL:</label>
+        <input
+          type="text"
+          name="image"
+          value={itemData.image}
+          onChange={handleChange}
+        />
 
-                <label><strong>Image: </strong></label>
-                <input 
-                    type="text"
-                    name="image"
-                    value={ itemData.image }
-                    onChange={ handleChange }
-                /> <br /> <br />
-                <button type="button" onClick={ handleSubmit}> { updateOrSave }</button>
-                <button type="button" onClick={ handleDelete }>Delete Item</button> 
-                <button type="button" onClick={ handleCancel}> Cancel</button>
-            </form>
-           
-            {statusMessage && (
-                <p style={{ color: 'green', fontWeight: 'bold' }}>{statusMessage}</p>
-            )}
+        <div className="button-group">
+          <button type="button" onClick={handleSubmit}>
+            {updateOrSave}
+          </button>
+          <button type="button" onClick={handleDelete}>
+            Delete
+          </button>
+          <button type="button" onClick={handleCancel}>
+            Cancel
+          </button>
+        </div>
+      </form>
 
-
-
-
-        </>     
-    );
+      {statusMessage && <p className="status-message">{statusMessage}</p>}
+    </div>
+  );
 }
 
-export default EditPage
+export default EditPage;

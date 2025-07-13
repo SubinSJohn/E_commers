@@ -1,12 +1,23 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import Card from "./Card";
 import "../styling/CustomerPage.css";
+import { toast } from "react-toastify";
 
 function CustomerPage() {
     const userName = localStorage.getItem("username");
+    const role = localStorage.getItem("role");
     const [productList, setProduct] = useState([]);
     const navigate = useNavigate();
+
+    if(role !== "Customer"){
+        toast.error("pleas signup",{
+                    position: "bottom-right",
+                    autoClose: 4000,
+                    type: "error"
+                  });
+        return <Navigate to="/" />;
+    }
 
     useEffect(() => {
         fetch("http://localhost:8080/getAllProducts")

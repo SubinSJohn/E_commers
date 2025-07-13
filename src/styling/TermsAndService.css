@@ -1,0 +1,41 @@
+.terms-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  line-height: 1.6;
+}
+
+.terms-container h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #2c3e50;
+  text-align: center;
+}
+
+.terms-container .updated {
+  font-size: 0.9rem;
+  text-align: center;
+  color: #777;
+  margin-bottom: 30px;
+}
+
+.terms-container section {
+  margin-bottom: 30px;
+}
+
+.terms-container h2 {
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+  color: #f39c12;
+}
+
+.terms-container p {
+  margin: 0;
+  font-size: 1rem;
+  color: #444;
+}

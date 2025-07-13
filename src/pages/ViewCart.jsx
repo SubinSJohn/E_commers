@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Card2 from "./Card2";
 import { useNavigate } from "react-router-dom";
 import "../styling/ViewCart.css";
+import { toast } from "react-toastify";
 
 function ViewCart() {
   const userName = localStorage.getItem("username");
@@ -32,6 +33,11 @@ function ViewCart() {
       .then((res) => res.text())
       .then((msg) => {
         if (msg === "Cart cleared successfully") {
+          toast.success("Cart cleared",{
+            position: "bottom-right",
+            autoClose: 4000,
+            type: "success"
+          });
           navigate("/customer");
         }
       })

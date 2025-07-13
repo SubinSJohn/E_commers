@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { toast } from "react-toastify";
 import "../styling/SignInPage.css";
 
 function SignInPage() {
@@ -29,17 +30,30 @@ function SignInPage() {
       .then((res) => res.text())
       .then((data) => {
         if (data === "Admin") {
-          alert("Admin login");
+          toast.success(`${formData.userName} logged in successfully as Admin`,{
+            position: "bottom-right",
+            autoClose: 4000,
+            type: "success"
+          });
+
           localStorage.setItem("username", formData.userName);
           localStorage.setItem("role", "Admin");
           navigate("/admin");
         } else if (data === "Customer") {
-          alert("Customer login");
+          toast.success(`${formData.userName} logged in successfully as Customer`,{
+            position: "bottom-right",
+            autoClose: 4000,
+            type: "success"
+          });
           localStorage.setItem("role", "Customer");
           localStorage.setItem("username", formData.userName);
           navigate("/customer");
         } else {
-          alert("Incorrect username or password");
+          toast.success("Incorrect username or password",{
+            position: "bottom-right",
+            autoClose: 4000,
+            type: "error"
+          });
         }
       })
       .catch((err) => {

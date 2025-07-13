@@ -8,6 +8,7 @@ const Link = ({ to, className, children }) => (
 );
 
 function HomePage() {
+  localStorage.setItem("role", "hi");
   return (
     <div className="home-container">
       <nav className="navbar">
@@ -49,28 +50,35 @@ function HomePage() {
           <div className="hero-visual">
             <div className="floating-card card-1">
               <div className="card-content">
-                <div className="product-image"></div>
+                <div className="product-image"><img
+													src="https://www.dealsmagnet.com/images/infinity-jbl-swing-320-by-harman-true-wireless-ear-l-179rMe64.jpg"
+													alt="Product" />
+				</div>
                 <div className="card-text">
-                  <div className="card-title"></div>
-                  <div className="card-price"></div>
+                  <div className="card-title">EarBuds</div>
+                  <div className="card-price">₹ 999</div>
                 </div>
               </div>
             </div>
             <div className="floating-card card-2">
               <div className="card-content">
-                <div className="product-image"></div>
+                <div className="product-image">			  <img 
+			  													src="https://m.media-amazon.com/images/I/710tcH39x5L._AC_UL320_.jpg"
+			  													alt="Product" /></div>
                 <div className="card-text">
-                  <div className="card-title"></div>
-                  <div className="card-price"></div>
+                  <div className="card-title">LED Mini Keychain</div>
+                  <div className="card-price">₹ 199</div>
                 </div>
               </div>
             </div>
             <div className="floating-card card-3">
               <div className="card-content">
-                <div className="product-image"></div>
+                <div className="product-image">			  <img
+			  													src="https://thumbs.dreamstime.com/b/sleek-white-power-bank-blue-charging-indicators-wooden-surface-clean-modern-displayed-featuring-vibrant-led-375092865.jpg"
+			  													alt="Product" /></div>
                 <div className="card-text">
-                  <div className="card-title"></div>
-                  <div className="card-price"></div>
+                  <div className="card-title">Power Bank</div>
+                  <div className="card-price">₹ 2999</div>
                 </div>
               </div>
             </div>
@@ -130,7 +138,7 @@ function HomePage() {
               </p>
               <div className="stats">
                 <div className="stat">
-                  <span className="stat-number">10K+</span>
+                  <span className="stat-number">0K+</span>
                   <span className="stat-label">Happy Customers</span>
                 </div>
                 <div className="stat">
@@ -358,13 +366,25 @@ function HomePage() {
           animation-delay: 4s;
         }
 
-        .product-image {
-          width: 100%;
-          height: 120px;
-          background: linear-gradient(45deg, #f093fb 0%, #f5576c 100%);
-          border-radius: 15px;
-          margin-bottom: 15px;
-        }
+		.product-image {
+		  width: 100%;
+		  height: 120px;
+		  background: linear-gradient(45deg, #f093fb 0%, #f5576c 100%);
+		  border-radius: 15px;
+		  margin-bottom: 15px;
+		  overflow: hidden; /* prevents image from overflowing */
+		  display: flex;
+		  align-items: center;
+		  justify-content: center;
+		}
+
+		.product-image img {
+		  width: 100%;
+		  height: 100%;
+		  object-fit: cover; /* maintains aspect ratio and fills space */
+		  border-radius: 15px;
+		}
+
 
         .card-title {
           height: 12px;

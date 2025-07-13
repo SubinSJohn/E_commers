@@ -1,73 +1,74 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Navigate } from "react-router-dom";
-
+import Card from "./Card";
+import { toast } from "react-toastify";
+import "../styling/AdminPage.css";
 
 function AdminPage() {
     const username = localStorage.getItem("username"); 
     const role = localStorage.getItem("role");
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
-    if(role !== "Admin"){
+    if (role !== "Admin") {
         return <Navigate to="/" />;
     }
 
     const [product, setProduct] = useState([]);
 
-    useEffect (() => {
+    useEffect(() => {
         fetch("http://localhost:8080/getAllProducts")
-        .then((res) => res.json())
-        .then((data) => setProduct(data))
-        .catch((err) => console.error("Error fetching products: " + err));
-    },[]);
+            .then((res) => res.json())
+            .then((data) => setProduct(data))
+            .catch((err) => console.error("Error fetching products: " + err));
+    }, []);
 
-   
-
-
+    const handleLogout = () => {
+        localStorage.clear();
+        toast.info("Loged Out",{
+                    position: "bottom-right",
+                    autoClose: 2000,
+                    type: "info"
+                  });
+        navigate("/");
+    };
 
     return (
-        <div>
-            <h2>Welcome { username }</h2>
-            <br /><br />
-            <button type="button" onClick={() => navigate('/edit/0')}>Add new Product</button>
-            <br /> <br />
-            <button type="button" onClick={() => navigate('/')}>Home</button>
-            <br /> <br />
+        <div className="admin-page">
+            <header className="admin-header">
+                <h1>Admin Dashboard</h1>
+                <nav className="admin-nav">
+                    <button onClick={() => navigate("/")}>🏠 Home</button>
+                    <button onClick={() => navigate("/edit/0")}>➕ Add Product</button>
+                    <button onClick={handleLogout}>🚪 Logout</button>
+                </nav>
+            </header>
 
-            <table border="1" cellPadding="8">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Image</th>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Price</th>
-                        <th>Edit</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {product.map((item) => (
-                        <tr key = {item.id}>
-                            <td>{item.id}</td>
-                            <img
-                                src={item.image}
-                                alt={item.name}
-                                width="100"
-                                height="100"
+            <section className="admin-welcome">
+                <h2>Welcome, {username}</h2>
+                <p>You have access to manage and edit the product catalog.</p>
+            </section>
+
+            <section className="admin-products">
+                <h3>Product List</h3>
+                <div className="card-container">
+                    {product.length > 0 ? (
+                        product.map((product) => (
+                            <Card
+                                key={product.id}
+                                image={product.image}
+                                name={product.name}
+                                price={product.price}
+                                description={product.description}
+                                productId={product.id}
                             />
-                            <td>{item.name}</td>
-                            <td>{item.description}</td>
-                            <td>{item.price}</td>
-                            <td>
-                                <button onClick={() => navigate(`/edit/${item.id}`)}>
-                                    Edit
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+                        ))
+                    ) : (
+                        <p>No products available.</p>
+                    )}
+                </div>
+            </section>
         </div>
     );
 }
 
-export default AdminPage
+export default AdminPage;

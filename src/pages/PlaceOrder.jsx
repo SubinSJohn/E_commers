@@ -109,7 +109,7 @@ function PlaceOrder() {
 
   <div className="order-buttons">
     <button className="back-cart-btn" onClick={() => navigate("/viewcart")}>⬅ Back to Cart</button>
-    <button className="home-btn" onClick={() => navigate("/customer")}>🏠 Home</button>
+    <button className="home-btn" onClick={() => navigate("/customer")}>Back to Product</button>
   </div>
 </div>
 
